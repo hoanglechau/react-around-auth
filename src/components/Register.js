@@ -27,7 +27,7 @@ export default function Register({ onRegister }) {
                     <input
                         className='login-form__input'
                         name='name'
-                        placeholder='email'
+                        placeholder='email@mail.com'
                         id='email'
                         type='text'
                         value={email}
@@ -37,7 +37,7 @@ export default function Register({ onRegister }) {
                     <input
                         className='login-form__input'
                         name='password'
-                        placeholder='password'
+                        placeholder='•••••••••'
                         id='password'
                         type='password'
                         value={password}
