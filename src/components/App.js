@@ -142,20 +142,20 @@ export default function App() {
             .catch((err) => console.log(err));
     }
 
-    function onRegister(email, password) {
-        auth.register(email, password)
+    function onRegister({ email, password }) {
+        auth.register({ email, password })
             .then((res) => {
                 if (res.data._id) {
                     setToolTipStatus('success');
-                    setIsInfoToolTipOpen(true);
                     history.push('/signin');
                 } else {
                     setToolTipStatus('fail');
-                    setIsInfoToolTipOpen(true);
                 }
             })
             .catch((err) => {
                 setToolTipStatus('fail');
+            })
+            .finally(() => {
                 setIsInfoToolTipOpen(true);
             });
     }
