@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Route, Switch, Redirect, useHistory,
+  Route, Switch, Redirect, useNavigate,
 } from 'react-router-dom';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import ProtectedRoute from './ProtectedRoute';
@@ -32,7 +32,7 @@ export default function App() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [email, setEmail] = React.useState('');
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     api.getAppInfo()
@@ -51,7 +51,7 @@ export default function App() {
           if (res) {
             setEmail(res.data.email);
             setIsLoggedIn(true);
-            history.push('/');
+            navigate('/');
           } else {
             localStorage.removeItem('jwt');
           }
@@ -146,7 +146,7 @@ export default function App() {
         if (res.data._id) {
           setToolTipStatus('success');
           setIsInfoToolTipOpen(true);
-          history.push('/signin');
+          navigate('/signin');
         } else {
           setToolTipStatus('fail');
           setIsInfoToolTipOpen(true);
@@ -165,7 +165,7 @@ export default function App() {
           setIsLoggedIn(true);
           setEmail(email);
           localStorage.setItem('jwt', res.token);
-          history.push('/');
+          navigate('/');
         } else {
           setToolTipStatus('fail');
           setIsInfoToolTipOpen(true);
@@ -180,7 +180,7 @@ export default function App() {
   function onSignOut() {
     localStorage.removeItem('jwt');
     setIsLoggedIn(false);
-    history.push('/signin');
+    navigate('/signin');
   }
 
   return (
