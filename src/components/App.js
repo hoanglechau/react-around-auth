@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Route, Switch, Redirect, useNavigate,
+  Route, Routes, Navigate, useNavigate,
 } from 'react-router-dom';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import ProtectedRoute from './ProtectedRoute';
@@ -187,7 +187,7 @@ export default function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <Header email={email} onSignOut={onSignOut} />
-        <Switch>
+        <Routes>
           <ProtectedRoute exact path="/" loggedIn={isLoggedIn}>
             <Main
               cards={cards}
@@ -207,12 +207,12 @@ export default function App() {
           </Route>
           <Route>
             {isLoggedIn ? (
-              <Redirect to="/" />
+              <Navigate to="/" />
             ) : (
-              <Redirect to="/signin" />
+              <Navigate to="/signin" />
             )}
           </Route>
-        </Switch>
+        </Routes>
         <Footer />
 
         <EditProfilePopup
