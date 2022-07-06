@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Routes, Navigate, useNavigate } from 'react-router-dom';
+import { Route, Switch, Redirect, useHistory } from 'react-router-dom';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import ProtectedRoute from './ProtectedRoute';
 import api from '../utils/api';
@@ -32,7 +32,7 @@ export default function App() {
     const [isLoggedIn, setIsLoggedIn] = React.useState(false);
     const [email, setEmail] = React.useState('');
 
-    const navigate = useNavigate();
+    const history = useHistory();
 
     React.useEffect(() => {
         api.getAppInfo()
@@ -51,7 +51,7 @@ export default function App() {
                     if (res) {
                         setEmail(res.data.email);
                         setIsLoggedIn(true);
-                        navigate('/');
+                        history.push('/');
                     } else {
                         localStorage.removeItem('jwt');
                     }
@@ -148,7 +148,7 @@ export default function App() {
                 if (res.data._id) {
                     setToolTipStatus('success');
                     setIsInfoToolTipOpen(true);
-                    navigate('/signin');
+                    history.push('/signin');
                 } else {
                     setToolTipStatus('fail');
                     setIsInfoToolTipOpen(true);
@@ -167,7 +167,7 @@ export default function App() {
                     setIsLoggedIn(true);
                     setEmail(email);
                     localStorage.setItem('jwt', res.token);
-                    navigate('/');
+                    history.push('/');
                 } else {
                     setToolTipStatus('fail');
                     setIsInfoToolTipOpen(true);
@@ -182,14 +182,14 @@ export default function App() {
     function onSignOut() {
         localStorage.removeItem('jwt');
         setIsLoggedIn(false);
-        navigate('/signin');
+        history.push('/signin');
     }
 
     return (
         <CurrentUserContext.Provider value={currentUser}>
             <div className='page'>
                 <Header email={email} onSignOut={onSignOut} />
-                <Routes>
+                <Switch>
                     <ProtectedRoute exact path='/' loggedIn={isLoggedIn}>
                         <Main
                             cards={cards}
@@ -209,12 +209,12 @@ export default function App() {
                     </Route>
                     <Route>
                         {isLoggedIn ? (
-                            <Navigate to='/' />
+                            <Redirect to='/' />
                         ) : (
-                            <Navigate to='/signin' />
+                            <Redirect to='/signin' />
                         )}
                     </Route>
-                </Routes>
+                </Switch>
                 <Footer />
 
                 <EditProfilePopup
