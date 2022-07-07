@@ -9,7 +9,7 @@ export default function InfoTooltip({ isOpen, onClose, status }) {
                 <div className='modal__form'>
                     <button
                         type='button'
-                        className='modal__close-button'
+                        className='modal__close'
                         onClick={onClose}
                     />
                     {status === 'success' ? (
