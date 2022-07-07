@@ -35,7 +35,7 @@ export default function App() {
     const history = useHistory();
 
     React.useEffect(() => {
-        api.getAppInfo()
+        api.getInitialCards()
             .then(([cardData, userData]) => {
                 setCurrentUser(userData);
                 setCards(cardData);
